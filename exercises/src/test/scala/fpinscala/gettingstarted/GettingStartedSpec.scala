@@ -26,4 +26,23 @@ class GettingStartedSpec extends AnyFunSpec {
       }
     }
   }
+
+  describe("isSorted") {
+    val scenarios = Table(
+      ("as", "gt", "expected"),
+      (Array(1, 2, 3), (a: Int, b: Int) => a < b, true),
+      (Array(3, 2, 1), (a: Int, b: Int) => a > b, true),
+      (Array(1, 2, 3), (a: Int, b: Int) => a > b, false),
+      (Array(1, 2, 3), (a: Int, b: Int) => a != b, true),
+      (Array(1, 1, 2), (a: Int, b: Int) => a == b, false),
+    )
+
+    forAll(scenarios) { (as, gt, expected) =>
+      describe(s"Given: [${as.mkString(", ")}] and a lambda: ${gt.hashCode()}") {
+        it(s"returns ${expected}") {
+          assert(PolymorphicFunctions.isSorted(as, gt) == expected)
+        }
+      }
+    }
+  }
 }
