@@ -45,4 +45,36 @@ class GettingStartedSpec extends AnyFunSpec {
       }
     }
   }
+
+  describe("curry") {
+    describe("Given an add function with two parameters") {
+      def add = (a: Int, b: Int) => a + b
+
+      it("returns the expected curried function") {
+        assert(PolymorphicFunctions.curry(add)(1)(2) == add(1, 2))
+      }
+    }
+  }
+
+  describe("uncurry") {
+    describe("Given a curried subtract function with two parameters") {
+      def subtract = (a: Int, b: Int) => a - b
+      def curriedSubtract = PolymorphicFunctions.curry((subtract))
+
+      it("returns the expected uncurried function") {
+        assert(PolymorphicFunctions.uncurry(curriedSubtract)(3, 2) == subtract(3, 2))
+      }
+    }
+  }
+
+  describe("compose") {
+    describe("given an double and add10 function") {
+      def double = (a: Int) => 2 * a
+      def add10 = (a: Int) => a + 10
+
+      it("returns a function that adds 10 then doubles") {
+        assert(PolymorphicFunctions.compose(double, add10)(3) == double(add10(3)))
+      }
+    }
+  }
 }
